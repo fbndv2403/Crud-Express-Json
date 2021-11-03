@@ -48,7 +48,7 @@ const inquirerMenu = async () => {
   console.log("===========================".green);
 
   // Cuando veamos esta desestructaracion es porque estamos tomando el arreglo de las opciones a mostrar y escogemos solamente el NAME que es el abarca todas las posibilidades
-  const {opcion} = await inquirer.prompt(menuOpts);
+  const { opcion } = await inquirer.prompt(menuOpts);
   return opcion;
 };
 
@@ -62,7 +62,7 @@ const pausarMenu = async () => {
     },
   ];
   console.log("\n");
-  const {pausa} = await inquirer.prompt(pausarMessage);
+  const { pausa } = await inquirer.prompt(pausarMessage);
   return pausa;
 };
 // Leer un input que ingresa el usuario
@@ -80,7 +80,7 @@ const leerInput = async (message) => {
       },
     },
   ];
-  const {desc} = await inquirer.prompt(question);
+  const { desc } = await inquirer.prompt(question);
   return desc;
 };
 
@@ -106,7 +106,7 @@ listadoTareasBorrar = async (tareas = []) => {
       choices,
     },
   ];
-  const {id} = await inquirer.prompt(preguntas);
+  const { id } = await inquirer.prompt(preguntas);
   return id;
 };
 
@@ -119,8 +119,29 @@ const confirmar = async (message) => {
     },
   ];
 
-  const {ok} = await inquirer.prompt(question);
+  const { ok } = await inquirer.prompt(question);
   return ok;
+};
+mostrarListadoChecklist = async (tareas = []) => {
+  const choices = tareas.map((tarea, i) => {
+    const idx = `${i + 1}.`.green;
+    return {
+      value: tarea.id,
+      name: `${idx} ${tarea.descripcion}`,
+      checked: tarea.completadoEn ? true : false,
+    };
+  });
+
+  const preguntas = [
+    {
+      type: "checkbox",
+      name: "ids",
+      message: "Seleccione",
+      choices,
+    },
+  ];
+  const { ids } = await inquirer.prompt(preguntas);
+  return ids;
 };
 module.exports = {
   inquirerMenu,
@@ -128,4 +149,5 @@ module.exports = {
   leerInput,
   listadoTareasBorrar,
   confirmar,
+  mostrarListadoChecklist,
 };
